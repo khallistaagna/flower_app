@@ -1,7 +1,8 @@
 import 'package:flower_app/data/dummy_data.dart';
 import 'package:flower_app/models/flower.dart';
 import 'package:flower_app/screens/detail_screen.dart';
-import 'package:flower_app/widget/home_header.dart';
+import 'package:flower_app/widget/flower_card.dart';
+import 'package:flower_app/widget/home_content_header.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,10 +46,43 @@ class _HomeScreenState extends State<HomeScreen> {
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: HomeHeader(onProfileTap: onProfileTap),
-          )
-        ],
-      )
-    );
-  }
+            child: HomeContentHeader(
+              selectedCategory: _selectedCategory, 
+              categories: _categories, 
+              onQueryChanged: (value) => setState(() => _query = value),
+              onCategoryChanged: (value) => setState(() => _selectedCategory = value),
+              ),
+          ),
+
+          if (flowers.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Text('Bunga tidak ditemukan'),
+                ),
+              )
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.75,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => FlowerCard(
+                        flower: flowers[index],
+                        onTap: () => _openDetail(flowers[index]),
+                      ),
+                      childCount: flowers.length,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
 }
