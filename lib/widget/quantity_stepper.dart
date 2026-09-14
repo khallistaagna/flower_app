@@ -1,8 +1,8 @@
 import 'package:flower_app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key, required this.quantity, required this.onIncrement, required this.onDicrement});
+class QuantityStepper extends StatelessWidget {
+  const QuantityStepper({super.key, required this.quantity, required this.onIncrement, required this.onDicrement});
 
   final int quantity;
   final VoidCallback onIncrement;
